@@ -59,19 +59,15 @@ namespace SistemaEstoque.Console
 
         public void BuscarProdutoNoConsole(Estoque estoque)
         {
-            bool desejaBuscar = PerguntarSimOuNao("Deseja buscar um produto? Responda com Sim ou Não:");
-
             string nomeBuscado = "";
 
-            if (desejaBuscar)
-            {
-                System.Console.WriteLine("Qual o produto que deseja buscar?");
-                nomeBuscado = System.Console.ReadLine() ?? "";
-            }
+            System.Console.WriteLine("Qual o produto que deseja buscar?");
+            nomeBuscado = System.Console.ReadLine() ?? "";            
 
             bool encontrado = false;
+            bool continuar = true;
 
-            while (!encontrado && desejaBuscar)
+            while (!encontrado && continuar)
             {
                 Produto? produtoEncontrado = estoque.BuscarProduto(nomeBuscado);
                 if (produtoEncontrado != null)
@@ -87,7 +83,7 @@ namespace SistemaEstoque.Console
                     System.Console.WriteLine("Digite o nome de um produto cadastrado ou Não para parar de buscar");
                     nomeBuscado = System.Console.ReadLine() ?? "";
 
-                    if (nomeBuscado == "Não") desejaBuscar = false;
+                    if (nomeBuscado == "Não") continuar = false;
                 }
             }
         }
@@ -106,6 +102,32 @@ namespace SistemaEstoque.Console
             }
 
             return resposta == "Sim" ? true : false;
+        }
+
+        public int MostrarMenu()
+        {
+            MostrarText("1 - Cadastrar produto");
+            MostrarText("2 - Buscar produto");
+            MostrarText("3 - Mostrar valor total");
+            MostrarText("0 - Sair");
+
+            System.Console.WriteLine("Escolha uma opção:");
+            string escolhaDigitada = System.Console.ReadLine() ?? "";
+
+            int escolha;
+
+            while (!int.TryParse(escolhaDigitada, out escolha) || escolha < 0 || escolha > 3)
+            {
+                System.Console.WriteLine("Escolha uma opção válida:");
+                escolhaDigitada = System.Console.ReadLine() ?? "";
+            }
+
+            return escolha;
+        }
+
+        private void MostrarText(string tex)
+        {
+            System.Console.WriteLine(tex);
         }
     }
 }

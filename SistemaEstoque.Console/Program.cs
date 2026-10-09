@@ -3,17 +3,30 @@
 Estoque estoque = new Estoque();
 EstoqueConsole estoqueConsole = new EstoqueConsole();
 
-bool continuarCadastro = true;
+bool executando = true;
 
-while (continuarCadastro)
+while (executando)
 {
-    estoqueConsole.CadastrarProduto(estoque);
 
-    continuarCadastro = estoqueConsole.PerguntarSimOuNao("Deseja cadastrar outro? Responda com Sim ou Não:");
+    int menu = estoqueConsole.MostrarMenu();
+
+    switch (menu)
+    {
+        case 0:
+            executando = false;
+            break;
+
+        case 1:
+            estoqueConsole.CadastrarProduto(estoque);
+            break;
+
+        case 2:
+            estoqueConsole.BuscarProdutoNoConsole(estoque);
+            break;
+
+        case 3:
+            Console.WriteLine($"Valor total em estoque: {estoque.CalcularValorTotal()}");
+            break;
+    }
 }
 
-Console.WriteLine($"Produtos cadastrados: {estoque.QuantidadeProdutos}");
-
-Console.WriteLine($"Valor total em estoque: {estoque.CalcularValorTotal()}");
-
-estoqueConsole.BuscarProdutoNoConsole(estoque);
