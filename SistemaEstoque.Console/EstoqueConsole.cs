@@ -115,6 +115,7 @@ namespace SistemaEstoque.Console
             MostrarText("1 - Cadastrar produto");
             MostrarText("2 - Buscar produto");
             MostrarText("3 - Mostrar valor total");
+            MostrarText("4 - Mostrar todos os produtos cadastrados");
             MostrarText("0 - Sair");
 
             System.Console.WriteLine("Escolha uma opção:");
@@ -122,13 +123,29 @@ namespace SistemaEstoque.Console
 
             int escolha;
 
-            while (!int.TryParse(escolhaDigitada, out escolha) || escolha < 0 || escolha > 3)
+            while (!int.TryParse(escolhaDigitada, out escolha) || escolha < 0 || escolha > 4)
             {
                 System.Console.WriteLine("Escolha uma opção válida:");
                 escolhaDigitada = System.Console.ReadLine() ?? "";
             }
 
             return escolha;
+        }
+
+        public void ListarProdutos(Estoque estoque)
+        {
+            if (estoque.QuantidadeProdutos <= 0)
+            {
+                System.Console.WriteLine("Nenhum produto cadastrado");
+                return;
+            }
+
+            foreach (Produto produto in estoque.Produtos)
+            {
+                string preco = produto.Valor.ToString("C2", CultureInfo.GetCultureInfo("pt-BR"));
+
+                System.Console.WriteLine($"Produto: {produto.Nome}, Preço: {preco}, Quantidade em estoque: {produto.Quantidade}");
+            }
         }
 
         private void MostrarText(string tex)

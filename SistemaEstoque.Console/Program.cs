@@ -28,6 +28,10 @@ while (executando)
         case 3:
             Console.WriteLine($"Valor total em estoque: {estoque.CalcularValorTotal()}");
             break;
+
+        case 4:
+            estoqueConsole.ListarProdutos(estoque);
+            break;
     }
 }
 
