@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Globalization;
 
 namespace SistemaEstoque.Console
 {
@@ -27,9 +25,13 @@ namespace SistemaEstoque.Console
 
         public Produto? BuscarProduto(string nome)
         {
+            string nomeBuscado = nome.Trim();
+
             foreach (Produto p in produtos)
             {
-                if (nome == p.Nome) return p;
+                string itemBuscado = p.Nome.Trim();
+                int resultado = CultureInfo.GetCultureInfo("pt-BR").CompareInfo.Compare(nomeBuscado, itemBuscado, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace);
+                if (resultado == 0) return p;
             }
 
             return null;

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Globalization;
 
 namespace SistemaEstoque.Console
 {
@@ -22,7 +20,7 @@ namespace SistemaEstoque.Console
 
             decimal valor;
 
-            while (!decimal.TryParse(valorDigitado, out valor) || valor < 0.05m)
+            while (!decimal.TryParse(valorDigitado.Trim().Replace(",", "."), NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture,out valor) || valor < 0.05m)
             {
                 System.Console.WriteLine("Digite um valor valido: ");
                 valorDigitado = System.Console.ReadLine() ?? "0,00";
@@ -72,7 +70,9 @@ namespace SistemaEstoque.Console
                 Produto? produtoEncontrado = estoque.BuscarProduto(nomeBuscado);
                 if (produtoEncontrado != null)
                 {
-                    System.Console.WriteLine($"Produto buscado: {produtoEncontrado.Nome}, preço: {produtoEncontrado.Valor}, quantidade em estoque: {produtoEncontrado.Quantidade}");
+                    string valorProdutoEncontrado = produtoEncontrado.Valor.ToString("C2", CultureInfo.GetCultureInfo("pt-BR"));
+
+                    System.Console.WriteLine($"Produto buscado: {produtoEncontrado.Nome}, preço: {valorProdutoEncontrado}, quantidade em estoque: {produtoEncontrado.Quantidade}");
 
                     encontrado = true;
                 }
