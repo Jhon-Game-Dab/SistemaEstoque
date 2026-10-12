@@ -38,5 +38,7 @@ namespace SistemaEstoque.Console
         }
 
         public int QuantidadeProdutos => produtos.Count;
+
+        public IReadOnlyList<Produto> Produtos => produtos.AsReadOnly();
     }
 }

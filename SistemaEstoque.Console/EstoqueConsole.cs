@@ -4,7 +4,7 @@ namespace SistemaEstoque.Console
 {
     internal class EstoqueConsole
     {
-        public void CadastrarProduto(Estoque estoque)
+        public bool CadastrarProduto(Estoque estoque)
         {
             System.Console.WriteLine("Digite o nome do produto: ");
             string nome = System.Console.ReadLine() ?? "";
@@ -44,14 +44,20 @@ namespace SistemaEstoque.Console
                 estoque.AdicionarProduto(produto);
 
                 System.Console.WriteLine($"Produto cadastrado {produto.Nome}, valor do produto: {produto.Valor}, quantidade em estoque: {produto.Quantidade}");
+
+                return true;
             }
             catch (ArgumentOutOfRangeException erro)
             {
                 System.Console.WriteLine(erro.Message);
+
+                return false;
             }
             catch (ArgumentException erro)
             {
                 System.Console.WriteLine(erro.Message);
+
+                return false;
             }
         }
 

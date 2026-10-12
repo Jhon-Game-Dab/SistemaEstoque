@@ -1,6 +1,7 @@
 ﻿using SistemaEstoque.Console;
 
-Estoque estoque = new Estoque();
+EstoqueArquivo arquivoEstoque = new EstoqueArquivo();
+Estoque estoque = arquivoEstoque.Carregar();
 EstoqueConsole estoqueConsole = new EstoqueConsole();
 
 bool executando = true;
@@ -17,7 +18,7 @@ while (executando)
             break;
 
         case 1:
-            estoqueConsole.CadastrarProduto(estoque);
+            if (estoqueConsole.CadastrarProduto(estoque)) arquivoEstoque.Salvar(estoque);
             break;
 
         case 2:
