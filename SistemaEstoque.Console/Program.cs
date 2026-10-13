@@ -32,6 +32,10 @@ while (executando)
         case 4:
             estoqueConsole.ListarProdutos(estoque);
             break;
+
+        case 5:
+            if (estoqueConsole.RemoverProdutoNoConsole(estoque)) arquivoEstoque.Salvar(estoque);
+            break;
     }
 }
 

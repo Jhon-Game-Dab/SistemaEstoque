@@ -23,6 +23,19 @@ namespace SistemaEstoque.Console
             return valorTotal;
         }
 
+        public bool RemoverProduto(string nome)
+        {
+            Produto? produtoEncontrado = BuscarProduto(nome);
+
+            if (produtoEncontrado == null)
+            {
+                return false;
+            }
+
+            produtos.Remove(produtoEncontrado);
+            return true;
+        }
+
         public Produto? BuscarProduto(string nome)
         {
             string nomeBuscado = nome.Trim();

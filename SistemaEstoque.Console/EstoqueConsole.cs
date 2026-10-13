@@ -116,6 +116,7 @@ namespace SistemaEstoque.Console
             MostrarText("2 - Buscar produto");
             MostrarText("3 - Mostrar valor total");
             MostrarText("4 - Mostrar todos os produtos cadastrados");
+            MostrarText("5 - Remover produtos");
             MostrarText("0 - Sair");
 
             System.Console.WriteLine("Escolha uma opção:");
@@ -123,13 +124,73 @@ namespace SistemaEstoque.Console
 
             int escolha;
 
-            while (!int.TryParse(escolhaDigitada, out escolha) || escolha < 0 || escolha > 4)
+            while (!int.TryParse(escolhaDigitada, out escolha) || escolha < 0 || escolha > 5)
             {
                 System.Console.WriteLine("Escolha uma opção válida:");
                 escolhaDigitada = System.Console.ReadLine() ?? "";
             }
 
             return escolha;
+        }
+
+        public bool RemoverProdutoNoConsole(Estoque estoque)
+        {
+            string nomeBuscado = "";
+
+            System.Console.WriteLine("Nome do produto que deseja remover do estoque:");
+            nomeBuscado = System.Console.ReadLine() ?? "";
+
+            bool continuar = true;
+            bool encontrado = false;
+
+            while (!encontrado && continuar)
+            {
+                Produto? produtoEncontrado = estoque.BuscarProduto(nomeBuscado);
+                if (produtoEncontrado != null)
+                {
+                    bool desejaRemover = PerguntarSimOuNao($"Deseja remover {nomeBuscado} do estoque? Sim ou Não:");
+                    if (desejaRemover)
+                    {
+                        if (estoque.RemoverProduto(nomeBuscado)) System.Console.WriteLine("Produto removido com sucesso!");
+                        else
+                        {
+                            MostrarText("Produto não cadastrado");
+                            encontrado = false;
+                            return false;
+                        }
+
+                        encontrado = true;
+                        return true;
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("Produto não removido!");
+                        continuar = false;
+                        return false;
+                    }
+                }
+                else
+                {
+                    bool desejaRemover = PerguntarSimOuNao($"Produto com o nome {nomeBuscado} não encontrado, deseja continuar a busca?");
+                    if (desejaRemover)
+                    {
+                        continuar = true;
+                    }
+                    else
+                    {
+                        continuar = false;
+                        return false;
+                    }
+
+                    System.Console.WriteLine("Digite o nome de um produto que deseja remover do estoque ou digete Não para parar por aqui");
+                    nomeBuscado = System.Console.ReadLine() ?? "";
+
+                    if (nomeBuscado == "Não") continuar = false;
+                    else  continuar = true;
+                }
+            }
+
+            return false;            
         }
 
         public void ListarProdutos(Estoque estoque)
